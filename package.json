@@ -1,6 +1,6 @@
 {
   "name": "@cedricduff/schematics-ngx-starter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Angular Schematics to help you create crud feature in ngx starter",
   "scripts": {
     "build": "ng-packagr -p package.json && yarn build:schematics && yarn copy:schematics",
