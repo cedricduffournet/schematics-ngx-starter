@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsNgxDemoComponent",
+  "title": "NgxDemo Effect Component Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the component.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Name of the component please ?"
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the component.",
+      "visible": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

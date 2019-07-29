@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsNgxDemoService",
+  "title": "NgxDemo Service Options Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the service.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Name of the service please ?"
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the service.",
+      "visible": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

@@ -1,0 +1,20 @@
+<td class="align-middle">
+  <a
+    href="#"
+    (click)="$event.preventDefault(); onUpdate(<%= camelize(name) %>.id)"
+    class="h5"
+    title="{{ 'UPDATE_ELEM' | translate }}"
+  >
+    {{ <%= camelize(name) %>.name }}
+  </a>
+</td>
+<td class="align-middle">
+  <div class="float-right actions">
+    <app-actions-item
+      [withEdit]="authorization.update"
+      [withDelete]="authorization.delete"
+      (delete)="onDelete(<%= camelize(name) %>.id)"
+      (edit)="onUpdate(<%= camelize(name) %>.id)"
+    ></app-actions-item>
+  </div>
+</td>

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsNgxDemoModel",
+  "title": "NgxDemo Model Options Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the model.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Name of the model please ?"
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the model.",
+      "visible": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

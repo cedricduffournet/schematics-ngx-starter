@@ -1,0 +1,50 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "actions": {
+      "description": "Action schematic.",
+      "factory": "./actions/index",
+      "schema": "./actions/schema.json"
+    },
+    "effects": {
+      "description": "Effect schematic.",
+      "factory": "./effects/index",
+      "schema": "./effects/schema.json"
+    },
+    "reducers": {
+      "description": "Reducer schematic.",
+      "factory": "./reducers/index",
+      "schema": "./reducers/schema.json"
+    },
+    "components": {
+      "description": "Component schematic.",
+      "factory": "./components/index",
+      "schema": "./components/schema.json"
+    },
+    "containers": {
+      "description": "Container schematic.",
+      "factory": "./containers/index",
+      "schema": "./containers/schema.json"
+    },
+    "models": {
+      "description": "Model schematic.",
+      "factory": "./models/index",
+      "schema": "./models/schema.json"
+    },
+    "services": {
+      "description": "Service schematic.",
+      "factory": "./services/index",
+      "schema": "./services/schema.json"
+    },
+    "module": {
+      "description": "Module schematic.",
+      "factory": "./module/index",
+      "schema": "./module/schema.json"
+    },
+    "crud": {
+      "description": "Crud schematic.",
+      "factory": "./crud/index",
+      "schema": "./crud/schema.json"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<app-modal-wrapper title="{{ 'CONFIRM' | translate }}">
+  <app-<%= dasherize(name) %>-delete
+    [<%= camelize(name) %>]="selected<%= classify(name) %>$ | async"
+    [deleting]="deleting$ | async"
+    (cancel)="onCancel()"
+    (delete)="onDelete($event)"
+  ></app-<%= dasherize(name) %>-delete>
+</app-modal-wrapper>

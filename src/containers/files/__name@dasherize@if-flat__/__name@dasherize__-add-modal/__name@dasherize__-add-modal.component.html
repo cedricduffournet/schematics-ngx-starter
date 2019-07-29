@@ -1,0 +1,7 @@
+<app-modal-wrapper title="{{ 'ADD_<%= underscore(name).toUpperCase() %>_TITLE' | translate }}">
+  <app-<%= dasherize(name) %>-add
+    (cancel)="onCancel()"
+    (add)="onAdd($event)"
+    [adding]="adding$ | async"
+  ></app-<%= dasherize(name) %>-add>
+</app-modal-wrapper>

@@ -1,0 +1,11 @@
+<app-page-inner>
+  <div class="page-section">
+    <app-<%= dasherize(name) %>-items
+      [<%= pluralize(camelize(name)) %>]="<%= pluralize(camelize(name)) %>$ | async"
+      (delete)="onDelete($event)"
+      (update)="onUpdate($event)"
+      (add)="onAdd()"
+      [authorization]="authorization$ | async"
+    ></app-<%= dasherize(name) %>-items>
+  </div>
+</app-page-inner>

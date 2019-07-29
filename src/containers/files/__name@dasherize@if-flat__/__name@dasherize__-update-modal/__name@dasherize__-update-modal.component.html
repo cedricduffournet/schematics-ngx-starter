@@ -1,0 +1,8 @@
+<app-modal-wrapper title="{{ 'EDIT_<%= underscore(name).toUpperCase() %>_TITLE' | translate }}">
+  <app-<%= dasherize(name) %>-update
+    [<%= camelize(name) %>]="selected<%= classify(name) %>$ | async"
+    (cancel)="onCancel()"
+    (update)="onUpdate($event)"
+    [updating]="updating$ | async"
+  ></app-<%= dasherize(name) %>-update>
+</app-modal-wrapper>

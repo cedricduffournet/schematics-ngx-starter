@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsNgxDemoContainer",
+  "title": "NgxDemo Effect Container Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the container.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Name of the container please ?"
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the container.",
+      "visible": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

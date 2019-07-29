@@ -1,0 +1,6 @@
+<app-<%= dasherize(name) %>-form
+  [<%= camelize(name) %>]="<%= camelize(name) %>"
+  [processing]="updating"
+  (save)="onSave($event)"
+  (cancel)="onCancel()"
+></app-<%= dasherize(name) %>-form>

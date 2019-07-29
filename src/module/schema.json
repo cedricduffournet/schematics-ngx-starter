@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsNgxDemoModule",
+  "title": "NgxDemo Module Options Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the module.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Name of the module please ?"
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the module.",
+      "visible": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
