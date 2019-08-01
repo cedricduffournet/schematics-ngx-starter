@@ -132,7 +132,7 @@ describe('<%= classify(name) %>CollectionReducer', () => {
       const <%= camelize(name) %> = {
         id: 1,
         name: 'RemoveName'
-      };
+      } as <%= classify(name) %>;
       const action = <%= classify(name) %>DeleteModalActions.delete<%= classify(name) %>({
         <%= camelize(name) %>
       });

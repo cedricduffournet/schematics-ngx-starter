@@ -24,10 +24,10 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
           <%= pluralize(camelize(name)) %>: {
             1: {
               name: 'Name1'
-            },
+            } as <%= classify(name) %>,
             2: {
               name: 'Name2'
-            }
+            } as <%= classify(name) %>
           }
         },
         result: [1, 2]
@@ -62,11 +62,11 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
         1: {
           id: 1,
           name: 'Name 1'
-        },
+        } as <%= classify(name) %>,
         2: {
           id: 2,
           name: 'Name 2'
-        }
+        } as <%= classify(name) %>
       };
       const initialState = {
         ...from<%= pluralize(classify(name)) %>.INITIAL_STATE,
@@ -99,7 +99,7 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
         1: {
           id: 1,
           name: 'Name'
-        }
+        } as <%= classify(name) %>
       }
     };
 
@@ -126,11 +126,11 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
       1: {
         id: 1,
         name: 'Name 1'
-      },
+      } as <%= classify(name) %>,
       2: {
         id: 2,
         name: 'Name 2'
-      }
+      } as <%= classify(name) %>
     };
     const initialState = {
       ...from<%= pluralize(classify(name)) %>.INITIAL_STATE,
@@ -161,11 +161,11 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
       1: {
         id: 1,
         name: 'Name 1'
-      },
+      } as <%= classify(name) %>,
       2: {
         id: 2,
         name: 'Name 2'
-      }
+      } as <%= classify(name) %>
     };
     const initialState = {
       ...from<%= pluralize(classify(name)) %>.INITIAL_STATE,
@@ -191,11 +191,11 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
             1: {
               id: 1,
               name: 'Name 1'
-            },
+            } as <%= classify(name) %>,
             2: {
               id: 2,
               name: 'Name 2'
-            }
+            } as <%= classify(name) %>
           }
         });
 

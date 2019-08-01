@@ -8,9 +8,7 @@ import {
 import * as fromRoot from '@app/core/state/reducers';
 import * as from<%= classify(name) %>Collection from '@app/<%= dasherize(name) %>/state/reducers/<%= dasherize(name) %>-collection.reducer';
 import * as from<%= classify(name) %>Entities from '@app/<%= dasherize(name) %>/state/reducers/<%= dasherize(name) %>-entities.reducer';
-import * as fromAuth from '@app/authentication/state/reducers';
 import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';
-import { Authorization } from '@app/core/models/authorization.model';
 
 export interface <%= pluralize(classify(name)) %>State {
   collection: from<%= classify(name) %>Collection.State;
@@ -96,33 +94,5 @@ export const getSelected<%= classify(name) %> = createSelector(
   getSelected<%= classify(name) %>Id,
   (<%= camelize(name) %>Entities, <%= camelize(name) %>Id): <%= classify(name) %> => {
     return <%= camelize(name) %>Entities[<%= camelize(name) %>Id];
-  }
-);
-
-export const canUpdate<%= classify(name) %> = createSelector(
-  fromAuth.getAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_EDIT']),
-  canUpdate => canUpdate
-);
-
-export const canDelete<%= classify(name) %> = createSelector(
-  fromAuth.getAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_DELETE']),
-  canDelete => canDelete
-);
-
-export const canCreate<%= classify(name) %> = createSelector(
-  fromAuth.getAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_CREATE']),
-  canCreate => canCreate
-);
-
-export const get<%= classify(name) %>Authorization = createSelector(
-  canUpdate<%= classify(name) %>,
-  canDelete<%= classify(name) %>,
-  canCreate<%= classify(name) %>,
-  (canUpdate, canDelete, canAdd): Authorization => {
-    return {
-      update: canUpdate,
-      delete: canDelete,
-      create: canAdd
-    };
   }
 );

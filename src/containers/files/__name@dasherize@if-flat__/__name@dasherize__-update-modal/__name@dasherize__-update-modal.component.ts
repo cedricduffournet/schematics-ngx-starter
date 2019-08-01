@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import * as from<%= pluralize(classify(name)) %> from '@app/<%= dasherize(name) %>/state/reducers';
-import { <%= classify(name) %>UpdateModalActions } from '@app/<%= dasherize(name) %>/state/actions';
 import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';
 
 @Component({
   selector: 'app-<%= dasherize(name) %>-update-modal',
@@ -19,21 +17,12 @@ export class <%= classify(name) %>UpdateModalComponent implements OnInit, OnDest
   subscription: Subscription;
   selected<%= classify(name) %>$: Observable<<%= classify(name) %>>;
 
-  constructor(
-    public bsModalRef: BsModalRef,
-    public store: Store<from<%= pluralize(classify(name)) %>.State>
-  ) {}
+  constructor(public bsModalRef: BsModalRef, public facade: <%= classify(name) %>Facade) {}
 
   ngOnInit() {
-    this.selected<%= classify(name) %>$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.getSelected<%= classify(name) %>)
-    );
-    this.updated$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.get<%= classify(name) %>EntitiesUpdated)
-    );
-    this.updating$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.get<%= classify(name) %>EntitiesUpdating)
-    );
+    this.selected<%= classify(name) %>$ = this.facade.selected$;
+    this.updated$ = this.facade.updated$;
+    this.updating$ = this.facade.updating$;
 
     this.subscription = this.updated$
       .pipe(filter(updated => updated))
@@ -49,6 +38,6 @@ export class <%= classify(name) %>UpdateModalComponent implements OnInit, OnDest
   }
 
   onUpdate(data: { id: number; <%= camelize(name) %>: <%= classify(name) %> }) {
-    this.store.dispatch(<%= classify(name) %>UpdateModalActions.update<%= classify(name) %>({ data }));
+     this.facade.update<%= classify(name) %>(data);
   }
 }

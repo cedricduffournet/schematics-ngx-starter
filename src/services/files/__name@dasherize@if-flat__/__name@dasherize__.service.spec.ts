@@ -55,7 +55,7 @@ describe('<%= classify(name) %>Service', () => {
   it('should update <%= camelize(name) %>, and return <%= camelize(name) %> updated', () => {
     const <%= camelize(name) %> = {
       name: 'name 1'
-    };
+    } as <%= classify(name) %>;
     const id = 1;
     const data = {
       id,
@@ -97,7 +97,7 @@ describe('<%= classify(name) %>Service', () => {
     const <%= camelize(name) %> = {
       id: 1,
       name: 'name 1'
-    };
+    } as <%= classify(name) %>;
 
     const response = cold('-a|', { a: {} });
     const expected = cold('-b|', { b: <%= camelize(name) %>.id });

@@ -87,6 +87,8 @@ ng generate @cedricduff/schematics-ngx-starter:crud MyFeature
     │           │    │    │── my-feature-collection.reducer.ts
     │           │    │    │── my-feature-entities.reducer.spec.ts
     │           │    │    │── my-feature-entities.reducer.ts
+    │           │    │── my-feature.facade.ts
+    │           │    │── my-feature.facade.spec.ts
     │           │── my-feature.module.ts
     └── ...
 ```
