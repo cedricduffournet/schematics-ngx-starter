@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import * as from<%= pluralize(classify(name)) %> from '@app/<%= dasherize(name) %>/state/reducers';
-import { <%= classify(name) %>DeleteModalActions } from '@app/<%= dasherize(name) %>/state/actions';
 import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';
 
 @Component({
   selector: 'app-<%= dasherize(name) %>-delete-modal',
@@ -19,21 +17,12 @@ export class <%= classify(name) %>DeleteModalComponent implements OnInit, OnDest
   subscription: Subscription;
   selected<%= classify(name) %>$: Observable<<%= classify(name) %>>;
 
-  constructor(
-    public bsModalRef: BsModalRef,
-    public store: Store<from<%= pluralize(classify(name)) %>.State>
-  ) {}
+  constructor(public bsModalRef: BsModalRef, public facade: <%= classify(name) %>Facade) {}
 
   ngOnInit() {
-    this.selected<%= classify(name) %>$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.getSelected<%= classify(name) %>)
-    );
-    this.deleted$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.get<%= classify(name) %>CollectionDeleted)
-    );
-    this.deleting$ = this.store.pipe(
-      select(from<%= pluralize(classify(name)) %>.get<%= classify(name) %>CollectionDeleting)
-    );
+    this.selected<%= classify(name) %>$ = this.facade.selected$;
+    this.deleted$ = this.facade.deleted$;
+    this.deleting$ = this.facade.deleting$;
 
     this.subscription = this.deleted$
       .pipe(filter(deleted => deleted))
@@ -49,8 +38,6 @@ export class <%= classify(name) %>DeleteModalComponent implements OnInit, OnDest
   }
 
   onDelete(<%= camelize(name) %>: <%= classify(name) %>) {
-    this.store.dispatch(
-      <%= classify(name) %>DeleteModalActions.delete<%= classify(name) %>({ <%= camelize(name) %> })
-    );
+    this.facade.delete<%= classify(name) %>(<%= camelize(name) %>);
   }
 }

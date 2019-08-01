@@ -1,8 +1,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Store, MemoizedSelector } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -17,13 +17,12 @@ import {
   <%= classify(name) %>FormComponent
 } from '@app/<%= dasherize(name) %>/components';
 import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';
-import * as fromCivilities from '@app/<%= dasherize(name) %>/state/reducers';
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';
 
 describe('<%= classify(name) %>AddModalComponent', () => {
   let fixture: ComponentFixture<<%= classify(name) %>AddModalComponent>;
   let component: <%= classify(name) %>AddModalComponent;
-  let store: MockStore<fromCivilities.State>;
-  let added: MemoizedSelector<fromCivilities.State, boolean>;
+  let facade: <%= classify(name) %>Facade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -38,17 +37,21 @@ describe('<%= classify(name) %>AddModalComponent', () => {
         ReactiveFormsModule,
         ModalWrapperModule
       ],
-      providers: [provideMockStore(), BsModalRef]
+      providers: [
+        provideMockStore(),
+        BsModalRef,
+        {
+          provide: <%= classify(name) %>Facade,
+          useValue: {
+            added$: of(false),
+            add<%= classify(name) %>: jest.fn()
+          }
+        }
+      ]
     });
-
+    facade = TestBed.get(<%= classify(name) %>Facade);
     fixture = TestBed.createComponent(<%= classify(name) %>AddModalComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
-    added = store.overrideSelector(
-      fromCivilities.get<%= classify(name) %>CollectionAdded,
-      false
-    );
-    spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -57,29 +60,35 @@ describe('<%= classify(name) %>AddModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a add<%= classify(name) %> event on submit', () => {
+  it('should call add<%= classify(name) %> event on submit', () => {
+    spyOn(facade, 'add<%= classify(name) %>');
     const <%= camelize(name) %> = {
       name: 'name'
     } as <%= classify(name) %>;
-    const action = <%= classify(name) %>AddModalActions.add<%= classify(name) %>({ <%= camelize(name) %> });
     fixture.detectChanges();
     component.onAdd(<%= camelize(name) %>);
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.add<%= classify(name) %>).toHaveBeenCalledWith(<%= camelize(name) %>);
   });
 
-  it('should close modal after <%= camelize(name) %> added', () => {
+  it('should close if <%= camelize(name) %> added', () => {
     spyOn(component.bsModalRef, 'hide');
+    facade.added$ = of(true);
     fixture.detectChanges();
-    added.setResult(true);
-    // need this to trigger state change (see : https://github.com/ngrx/platform/issues/2000)
-    store.setState({} as any);
     expect(component.bsModalRef.hide).toHaveBeenCalled();
   });
 
   it('should close modal on cancel', () => {
+    fixture.detectChanges();
     spyOn(component.bsModalRef, 'hide');
     component.onCancel();
     expect(component.bsModalRef.hide).toHaveBeenCalled();
+  });
+
+  it('should unsubscribe subscription when destroyed', () => {
+    fixture.detectChanges();
+    spyOn(component.subscription, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(component.subscription.unsubscribe).toHaveBeenCalled();
   });
 });

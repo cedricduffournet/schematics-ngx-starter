@@ -41,6 +41,11 @@
       "factory": "./module/index",
       "schema": "./module/schema.json"
     },
+    "facade": {
+      "description": "Facade schematic.",
+      "factory": "./facade/index",
+      "schema": "./facade/schema.json"
+    },
     "crud": {
       "description": "Crud schematic.",
       "factory": "./crud/index",

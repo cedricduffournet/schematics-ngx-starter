@@ -17,7 +17,7 @@ describe('<%= classify(name) %>Update', () => {
   const <%= camelize(name) %>: <%= classify(name) %> = {
     id: 1,
     name: 'testname1'
-  };
+  } as <%= classify(name) %>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

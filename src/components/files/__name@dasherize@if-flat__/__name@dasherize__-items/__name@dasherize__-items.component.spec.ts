@@ -17,11 +17,11 @@ describe('<%= classify(name) %>Items', () => {
     {
       id: 1,
       name: 'testname1'
-    },
+    } as <%= classify(name) %>,
     {
       id: 2,
       name: 'testname2'
-    }
+    } as <%= classify(name) %>
   ];
 
   beforeEach(() => {

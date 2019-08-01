@@ -1,7 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -9,14 +8,14 @@ import {
   <%= classify(name) %>ItemsComponent
 } from '@app/<%= dasherize(name) %>/components';
 import { <%= classify(name) %>ListViewComponent } from '@app/<%= dasherize(name) %>/containers';
-import * as from<%= pluralize(classify(name)) %> from '@app/<%= dasherize(name) %>/state/reducers';
-import { <%= classify(name) %>ListViewActions } from '@app/<%= dasherize(name) %>/state/actions';
 import { SharedModule } from '@app/shared/shared.module';
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';
+import { AuthFacade } from '@app/authentication/state/auth.facade';
 
 describe('<%= classify(name) %>ListViewComponent', () => {
   let fixture: ComponentFixture<<%= classify(name) %>ListViewComponent>;
   let component: <%= classify(name) %>ListViewComponent;
-  let store: MockStore<from<%= pluralize(classify(name)) %>.State>;
+  let facade: <%= classify(name) %>Facade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,29 +26,15 @@ describe('<%= classify(name) %>ListViewComponent', () => {
       ],
       imports: [SharedModule, TranslateModule.forRoot()],
       providers: [
-        provideMockStore({
-          selectors: [
-            {
-              selector: from<%= pluralize(classify(name)) %>.get<%= pluralize(classify(name)) %>,
-              value: []
-            },
-            {
-              selector: from<%= pluralize(classify(name)) %>.get<%= classify(name) %>Authorization,
-              value: {
-                create: true,
-                delete: true,
-                update: true
-              }
-            }
-          ]
-        })
+        provideMockStore(),
+        <%= classify(name) %>Facade,
+        AuthFacade
       ]
     });
 
     fixture = TestBed.createComponent(<%= classify(name) %>ListViewComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
+    facade = TestBed.get(<%= classify(name) %>Facade);
   });
 
   it('should be created', () => {
@@ -58,39 +43,39 @@ describe('<%= classify(name) %>ListViewComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch load<%= pluralize(classify(name)) %> on init', () => {
-    const action = <%= classify(name) %>ListViewActions.load<%= pluralize(classify(name)) %>();
+  it('should load<%= classify(name) %> on init', () => {
+    spyOn(facade, 'load<%= pluralize(classify(name)) %>');
     fixture.detectChanges();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.load<%= pluralize(classify(name)) %>).toHaveBeenCalledWith();
   });
 
-  it('should dispatch showAdd<%= classify(name) %>Modal on add event', () => {
-    const action = <%= classify(name) %>ListViewActions.showAdd<%= classify(name) %>Modal();
+  it('should call showAdd<%= classify(name) %>Modal on add event', () => {
+    spyOn(facade, 'showAdd<%= classify(name) %>Modal');
     component.onAdd();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.showAdd<%= classify(name) %>Modal).toHaveBeenCalledWith();
   });
 
-  it('should dispatch showUpdate<%= classify(name) %>Modal on update event', () => {
-    const action = <%= classify(name) %>ListViewActions.showUpdate<%= classify(name) %>Modal();
+  it('should call showUpdate<%= classify(name) %>Modal on update event', () => {
+    spyOn(facade, 'showUpdate<%= classify(name) %>Modal');
     component.onUpdate(1);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.showUpdate<%= classify(name) %>Modal).toHaveBeenCalledWith();
   });
 
-  it('should dispatch select<%= classify(name) %> on update event', () => {
-    const action = <%= classify(name) %>ListViewActions.select<%= classify(name) %>({ id: 1 });
+  it('should call select<%= classify(name) %> on update event', () => {
+    spyOn(facade, 'select<%= classify(name) %>');
     component.onUpdate(1);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.select<%= classify(name) %>).toHaveBeenCalledWith(1);
   });
 
-  it('should dispatch showDelete<%= classify(name) %>Modal on update event', () => {
-    const action = <%= classify(name) %>ListViewActions.showDelete<%= classify(name) %>Modal();
+  it('should call showDelete<%= classify(name) %>Modal on update event', () => {
+    spyOn(facade, 'showDelete<%= classify(name) %>Modal');
     component.onDelete(1);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.showDelete<%= classify(name) %>Modal).toHaveBeenCalledWith();
   });
 
-  it('should dispatch select<%= classify(name) %> on deletee event', () => {
-    const action = <%= classify(name) %>ListViewActions.select<%= classify(name) %>({ id: 1 });
+  it('should call select<%= classify(name) %> on delete event', () => {
+    spyOn(facade, 'select<%= classify(name) %>');
     component.onDelete(1);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(facade.select<%= classify(name) %>).toHaveBeenCalledWith(1);
   });
 });

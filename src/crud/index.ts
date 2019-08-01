@@ -18,7 +18,8 @@ export default function(options: CrudOptions): Rule {
       schematic('models', options),
       schematic('module', options),
       schematic('reducers', options),
-      schematic('services', options)
+      schematic('services', options),
+      schematic('facade', options)
     ]);
     return rule(host, context);
   };

@@ -7,3 +7,4 @@ export * from './models';
 export * from './module';
 export * from './reducers';
 export * from './services';
+export * from './facade';

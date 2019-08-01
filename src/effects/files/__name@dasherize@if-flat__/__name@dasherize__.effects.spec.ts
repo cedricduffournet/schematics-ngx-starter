@@ -333,7 +333,7 @@ describe('<%= classify(name) %>Effects', () => {
     const <%= camelize(name) %> = {
       id: 1,
       name: 'Name'
-    };
+    } as <%= classify(name) %>;
 
     it('should return a delete<%= classify(name) %>Success with delete <%= camelize(name) %> id on success', () => {
       const idSuccess = { id: 1 };

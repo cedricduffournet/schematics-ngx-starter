@@ -1,5 +1,4 @@
 import * as from<%= pluralize(classify(name)) %> from '@app/<%= dasherize(name) %>/state/reducers';
-import { User } from '@app/user/models/User';
 
 describe('<%= classify(name) %>Reducer ', () => {
   const initialState: from<%= pluralize(classify(name)) %>.<%= pluralize(classify(name)) %>State = {
@@ -209,36 +208,6 @@ describe('<%= classify(name) %>Reducer ', () => {
         ).toStrictEqual({
           id: 1,
           name: 'Name 1'
-        });
-      });
-    });
-
-    describe('canUpdate<%= classify(name) %>', () => {
-      it('should return if can update <%= camelize(name) %>', () => {
-        expect(from<%= pluralize(classify(name)) %>.canUpdate<%= classify(name) %>.projector(true)).toBe(true);
-      });
-    });
-
-    describe('canDelete<%= classify(name) %>', () => {
-      it('should return if can delete <%= camelize(name) %>', () => {
-        expect(from<%= pluralize(classify(name)) %>.canDelete<%= classify(name) %>.projector(true)).toBe(true);
-      });
-    });
-
-    describe('canCreate<%= classify(name) %>', () => {
-      it('should return if can create <%= camelize(name) %>', () => {
-        expect(from<%= pluralize(classify(name)) %>.canCreate<%= classify(name) %>.projector(true)).toBe(true);
-      });
-    });
-
-    describe('get<%= classify(name) %>Authorization', () => {
-      it('should return <%= camelize(name) %> authorization', () => {
-        expect(
-          from<%= pluralize(classify(name)) %>.get<%= classify(name) %>Authorization.projector(true, true, false)
-        ).toStrictEqual({
-          update: true,
-          delete: true,
-          create: false
         });
       });
     });

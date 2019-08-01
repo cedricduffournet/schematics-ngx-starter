@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsNgxDemoContainer",
-  "title": "NgxDemo Effect Container Schema",
+  "id": "SchematicsNgxStarterContainer",
+  "title": "NgxStarter Effect Container Schema",
   "type": "object",
   "properties": {
     "name": {

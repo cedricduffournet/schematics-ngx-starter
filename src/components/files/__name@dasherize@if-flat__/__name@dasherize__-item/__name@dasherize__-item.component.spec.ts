@@ -12,7 +12,7 @@ describe('<%= classify(name) %>Item', () => {
   const <%= camelize(name) %>: <%= classify(name) %> = {
     id: 1,
     name: 'testname'
-  };
+  } as <%= classify(name) %>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsNgxDemoService",
-  "title": "NgxDemo Service Options Schema",
+  "id": "SchematicsNgxStarterService",
+  "title": "NgxStarter Service Options Schema",
   "type": "object",
   "properties": {
     "name": {
