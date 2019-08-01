@@ -2,6 +2,8 @@
 
 The schematics in this library will help your generate CRUD feature in my [ngx-starter](https://github.com/cedricduffournet/ngx-starter.git).
 
+[![Build Status](https://travis-ci.com/cedricduffournet/schematics-ngx-starter.svg?branch=master)](https://travis-ci.com/cedricduffournet/schematics-ngx-starter)
+
 ## Using Schematics
 
 Run schematics from your console in project.
