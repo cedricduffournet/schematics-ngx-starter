@@ -14,7 +14,9 @@ export class <%= classify(name) %>ListViewComponent implements OnInit {
   <%= pluralize(camelize(name)) %>$: Observable<<%= classify(name) %>[]>;
   canUpdate$: Observable<boolean>;
   canDelete$: Observable<boolean>;
-  canCreate$: Observable<boolean>;
+  canCreate$: Observable<boolean>;<% if(paginated) { %>
+  config$: Observable<any>;
+  totalItems$: Observable<number>;<% } %>
 
   public constructor(
     private facade: <%= classify(name) %>Facade,
@@ -25,7 +27,9 @@ export class <%= classify(name) %>ListViewComponent implements OnInit {
     this.<%= pluralize(camelize(name)) %>$ = this.facade.<%= pluralize(camelize(name)) %>$;
     this.canCreate$ = this.authFacade.isAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_CREATE']);
     this.canDelete$ = this.authFacade.isAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_DELETE']);
-    this.canUpdate$ = this.authFacade.isAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_EDIT']);
+    this.canUpdate$ = this.authFacade.isAuthorized(['ROLE_<%= underscore(name).toUpperCase() %>_EDIT']);<% if(paginated) { %>
+    this.config$ = this.facade.config$;
+    this.totalItems$ = this.facade.totalItems$;<% } %>
     this.facade.load<%= pluralize(classify(name)) %>();
   }
 
@@ -42,4 +46,8 @@ export class <%= classify(name) %>ListViewComponent implements OnInit {
     this.facade.select<%= classify(name) %>(id);
     this.facade.showDelete<%= classify(name) %>Modal();
   }
+<% if(paginated) { %>
+  onPageChanged(page: number) {
+    this.facade.changePage(page);
+  }<% } %>
 }

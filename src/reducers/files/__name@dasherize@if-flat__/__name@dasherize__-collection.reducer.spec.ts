@@ -16,7 +16,15 @@ describe('<%= classify(name) %>CollectionReducer', () => {
 
       expect(result).toMatchSnapshot();
     });
-  });
+  });<% if(paginated) { %>
+
+  describe('CHANGE_PAGE', () => {
+    it('current page shoud be set to 10', () => {
+      const action = <%= classify(name) %>ListViewActions.changePage({ page: 10 });
+      const result = reducer(from<%= pluralize(classify(name)) %>.INITIAL_STATE, action);
+      expect(result).toMatchSnapshot();
+    });
+  });<% } %>
 
   describe('LOAD', () => {
     it('should set loading to true', () => {
@@ -43,9 +51,18 @@ describe('<%= classify(name) %>CollectionReducer', () => {
           }
         },
         result: [1, 2]
-      };
+      };<% if(paginated) { %>
+
+      const meta = {
+        itemsPerPage: 10,
+        page: 1,
+        pageCount: 1,
+        totalItems: 2
+      };<% } %>
+
       const action = <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({
-        <%= pluralize(camelize(name)) %>
+        <%= pluralize(camelize(name)) %><% if(paginated) { %>,
+        meta<% } %>
       });
       const result = reducer(initialState, action);
       expect(result).toMatchSnapshot();
@@ -311,6 +328,31 @@ describe('<%= classify(name) %>CollectionReducer', () => {
 
         expect(result).toMatchSnapshot();
       });
+    });<% if(paginated) { %>
+
+    describe('getConfig', () => {
+      it('should retrieve config with page to 2 and itemsPerPage to 50', () => {
+        const result = fromProducts.getConfig({
+          ...fromProducts.INITIAL_STATE,
+          config: {
+            page: 2,
+            itemsPerPage: 50
+          }
+        });
+
+        expect(result).toMatchSnapshot();
+      });
     });
+
+    describe('getTotalItems', () => {
+      it('should retrieve totalItems (100)', () => {
+        const result = fromProducts.getTotalItems({
+          ...fromProducts.INITIAL_STATE,
+          totalItems: 100
+        });
+
+        expect(result).toMatchSnapshot();
+      });
+    });<% } %>
   });
 });

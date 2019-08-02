@@ -96,5 +96,12 @@ describe('<%= classify(name) %>ListViewComponent', () => {
     const action = <%= classify(name) %>UpdateModalActions.update<%= classify(name) %>({ data });
     facade.update<%= classify(name) %>(data);
     expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
+  });<% if(paginated) { %>
+
+  it('should dispatch changePage', () => {
+    const page = 1;
+    const action = <%= classify(name) %>ListViewActions.changePage({ page });
+    facade.changePage(page);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });<% } %>
 });

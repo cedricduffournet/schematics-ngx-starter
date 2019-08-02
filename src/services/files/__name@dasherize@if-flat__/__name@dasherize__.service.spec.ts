@@ -42,14 +42,27 @@ describe('<%= classify(name) %>Service', () => {
         id: 1,
         name: 'name 2'
       }
-    ];
-    const <%= pluralize(camelize(name)) %>Normalized = normalize(<%= pluralize(camelize(name)) %>, [<%= camelize(name) %>Schema]);
+    ];<% if(paginated) { %>
+
+    const meta = {
+    };
+
+    const config = {
+      page: 1,
+      itemsPerPage: 10
+    };<% } %>
+
+    const <%= pluralize(camelize(name)) %>Normalized = normalize(<%= pluralize(camelize(name)) %>, [<%= camelize(name) %>Schema]);<% if(paginated) { %>
+    const response = cold('-a|', { a:  { data: <%= pluralize(camelize(name)) %>, meta }});
+    const expected = cold('-b|', { b: {<%= pluralize(camelize(name)) %>: <%= pluralize(camelize(name)) %>Normalized, meta }});
+    const params = service.toHttpParams(config);<% } else { %>
     const response = cold('-a|', { a: <%= pluralize(camelize(name)) %> });
-    const expected = cold('-b|', { b: <%= pluralize(camelize(name)) %>Normalized });
+    const expected = cold('-b|', { b: <%= pluralize(camelize(name)) %>Normalized });<% } %>
+
     http.get = jest.fn(() => response);
 
-    expect(service.load<%= pluralize(classify(name)) %>()).toBeObservable(expected);
-    expect(http.get).toHaveBeenCalledWith('/<%= pluralize(name.toLowerCase()) %>');
+    expect(service.load<%= pluralize(classify(name)) %>(<% if(paginated) { %>config<% } %>)).toBeObservable(expected);
+    expect(http.get).toHaveBeenCalledWith('/<%= pluralize(name.toLowerCase()) %>'<% if(paginated) { %>, params<% } %>);
   });
 
   it('should update <%= camelize(name) %>, and return <%= camelize(name) %> updated', () => {

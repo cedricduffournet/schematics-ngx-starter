@@ -77,5 +77,11 @@ describe('<%= classify(name) %>ListViewComponent', () => {
     spyOn(facade, 'select<%= classify(name) %>');
     component.onDelete(1);
     expect(facade.select<%= classify(name) %>).toHaveBeenCalledWith(1);
-  });
+  });<% if(paginated) { %>
+
+  it('should call changePage when page change', () => {
+    spyOn(facade, 'changePage');
+    component.onPageChanged(1);
+    expect(facade.changePage).toHaveBeenCalledWith(1);
+  });<% } %>
 });

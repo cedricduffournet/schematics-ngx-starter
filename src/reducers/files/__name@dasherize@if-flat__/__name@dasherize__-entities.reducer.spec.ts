@@ -31,9 +31,14 @@ describe('<%= classify(name) %>EntitiesReducer', () => {
           }
         },
         result: [1, 2]
-      };
+      };<% if(paginated) { %>
+
+      const meta = {
+      };<% } %>
+
       const action = <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({
-        <%= pluralize(camelize(name)) %>
+        <%= pluralize(camelize(name)) %><% if(paginated) { %>,
+        meta<% } %>
       });
       const result = reducer(from<%= pluralize(classify(name)) %>.INITIAL_STATE, action);
 

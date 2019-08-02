@@ -12,6 +12,12 @@ Run schematics from your console in project.
 ng generate @cedricduff/schematics-ngx-starter:crud MyFeature
 ```
 
+if you want to generate list witth pagination add `--paginated` option
+
+```bash
+ng generate @cedricduff/schematics-ngx-starter:crud MyFeature --paginated
+```
+
 ![Alt text](assets/schematics.gif?raw=true "@cedricduff/schematics:crud")
 
 ## Feature structure

@@ -55,27 +55,41 @@ export const get<%= classify(name) %>CollectionState = createSelector(
   select<%= pluralize(classify(name)) %>State,
   state => state.collection
 );
+
 export const get<%= classify(name) %>Ids = createSelector(
   get<%= classify(name) %>CollectionState,
   from<%= classify(name) %>Collection.getIds
 );
+
 export const get<%= classify(name) %>CollectionAdding = createSelector(
   get<%= classify(name) %>CollectionState,
   from<%= classify(name) %>Collection.getAdding
 );
+
 export const get<%= classify(name) %>CollectionAdded = createSelector(
   get<%= classify(name) %>CollectionState,
   from<%= classify(name) %>Collection.getAdded
 );
+
 export const get<%= classify(name) %>CollectionDeleting = createSelector(
   get<%= classify(name) %>CollectionState,
   from<%= classify(name) %>Collection.getDeleting
 );
+
 export const get<%= classify(name) %>CollectionDeleted = createSelector(
   get<%= classify(name) %>CollectionState,
   from<%= classify(name) %>Collection.getDeleted
 );
-
+<% if(paginated) { %>
+export const get<%= classify(name) %>CollectionConfig = createSelector(
+  get<%= classify(name) %>CollectionState,
+  from<%= classify(name) %>Collection.getConfig
+);
+export const get<%= classify(name) %>CollectionTotalItems = createSelector(
+  get<%= classify(name) %>CollectionState,
+  from<%= classify(name) %>Collection.getTotalItems
+);
+<% } %>
 export const get<%= pluralize(classify(name)) %> = createSelector(
   get<%= classify(name) %>Entities,
   get<%= classify(name) %>Ids,

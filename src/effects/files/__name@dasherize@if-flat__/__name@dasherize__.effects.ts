@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap<% if(paginated) { %>, withLatestFrom <% } %> } from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import {
   <%= classify(name) %>UpdateModalComponent,
@@ -19,10 +19,9 @@ import {
   <%= classify(name) %>AddModalActions,
   <%= classify(name) %>DeleteModalActions
 } from '@app/<%= dasherize(name) %>/state/actions';
-
 import { ToasterActions } from '@app/core/state/actions';
-
-import { <%= classify(name) %>Service } from '@app/<%= dasherize(name) %>/services';
+import { <%= classify(name) %>Service } from '@app/<%= dasherize(name) %>/services';<% if(paginated) { %>
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';<% } %>
 import { CRUD_MODAL_CONFIG } from '@app/shared/models/modal-config';
 
 @Injectable()
@@ -31,17 +30,31 @@ export class <%= classify(name) %>Effects {
     private actions$: Actions,
     private service: <%= classify(name) %>Service,
     private ts: TranslateService,
-    private modalService: BsModalService
+    private modalService: BsModalService<% if(paginated) { %>,
+    private facade: <%= classify(name) %>Facade<% } %>
   ) {}
+
+<% if(paginated) { %>  changePage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(<%= classify(name) %>ListViewActions.changePage),
+      map(() => <%= classify(name) %>ListViewActions.load<%= pluralize(classify(name)) %>())
+    )
+  );
+<% } %>
   load<%= pluralize(classify(name)) %>$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
         <%= classify(name) %>ListViewActions.load<%= pluralize(classify(name)) %>
-      ),
-      switchMap(() => {
-        return this.service.load<%= pluralize(classify(name)) %>().pipe(
-          map(<%= pluralize(camelize(name)) %> => {
-            return <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({ <%= pluralize(camelize(name)) %> });
+      ),<% if(paginated) { %>
+      withLatestFrom(this.facade.config$),<% } %>
+      switchMap((<% if(paginated) { %>[_, config]<% } %>) => {
+        return this.service.load<%= pluralize(classify(name)) %>(<% if(paginated) { %>config<% } %>).pipe(
+          map(<% if(paginated) { %>results<% } else { %><%= pluralize(camelize(name)) %><% } %> => {<% if(paginated) { %>
+            return <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({
+              <%= pluralize(camelize(name)) %>: results.<%= pluralize(camelize(name)) %>,
+              meta: results.meta
+            });<% } else { %>
+            return <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({ <%= pluralize(camelize(name)) %> });<% } %>
           }),
           catchError(error =>
             of(
