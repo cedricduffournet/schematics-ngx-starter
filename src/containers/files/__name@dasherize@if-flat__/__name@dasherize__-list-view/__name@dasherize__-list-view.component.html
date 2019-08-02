@@ -14,5 +14,13 @@
       (add)="onAdd()"
       [authorization]="authorization"
     ></app-<%= dasherize(name) %>-items>
+<% if(paginated) { %>
+    <app-paginator
+      *ngIf="config$ | async as config"
+      [page]="config.page"
+      [itemsPerPage]="config.itemsPerPage"
+      [totalItems]="totalItems$ | async"
+      (pageChanged)="onPageChanged($event)"
+    ></app-paginator><% } %>
   </div>
 </app-page-inner>

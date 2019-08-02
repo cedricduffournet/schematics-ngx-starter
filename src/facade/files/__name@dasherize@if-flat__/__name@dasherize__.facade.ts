@@ -25,7 +25,11 @@ export class <%= classify(name) %>Facade {
   deleting$ = this.store.pipe(
     select(from<%= pluralize(classify(name)) %>.get<%= classify(name) %>CollectionDeleting)
   );
-  selected$ = this.store.pipe(select(from<%= pluralize(classify(name)) %>.getSelected<%= classify(name) %>));
+  selected$ = this.store.pipe(select(from<%= pluralize(classify(name)) %>.getSelected<%= classify(name) %>));<% if(paginated) { %>
+  totalItems$ = this.store.pipe(
+    select(fromProducts.getProductCollectionTotalItems)
+  );
+  config$ = this.store.pipe(select(fromProducts.getProductCollectionConfig));<% } %>
 
   constructor(private store: Store<from<%= pluralize(classify(name)) %>.State>) {}
 
@@ -61,5 +65,9 @@ export class <%= classify(name) %>Facade {
 
   update<%= classify(name) %>(data: { id: number; <%= camelize(name) %>: <%= classify(name) %> }) {
     this.store.dispatch(<%= classify(name) %>UpdateModalActions.update<%= classify(name) %>({ data }));
-  }
+  }<% if(paginated) { %>
+
+  changePage(page: number) {
+    this.store.dispatch(<%= classify(name) %>ListViewActions.changePage({ page }));
+  }<% } %>
 }

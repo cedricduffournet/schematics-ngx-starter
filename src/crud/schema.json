@@ -18,6 +18,11 @@
       "format": "path",
       "description": "The path to create the crud module.",
       "visible": false
+    },
+    "paginated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Would you like to create paginated link ?"
     }
   },
   "required": [

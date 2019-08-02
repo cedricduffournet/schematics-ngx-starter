@@ -4,7 +4,7 @@ import { NormalizedData } from '@app/shared/models/normalized.model';
 
 export const load<%= classify(name) %>Success = createAction(
   '[<%= classify(name) %> API] Load SUCCESS',
-  props<{ <%= pluralize(camelize(name)) %>: NormalizedData }>()
+  props<{ <%= pluralize(camelize(name)) %>: NormalizedData<% if(paginated) { %>, meta: any <% } %> }>()
 );
 
 export const load<%= classify(name) %>Failure = createAction(

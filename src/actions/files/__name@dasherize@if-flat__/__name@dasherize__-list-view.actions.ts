@@ -19,4 +19,9 @@ export const showDelete<%= classify(name) %>Modal = createAction(
 export const select<%= classify(name) %> = createAction(
   '[<%= classify(name) %> list view] Select item',
   props<{ id: number }>()
-);
+);<% if(paginated) { %>
+
+export const changePage = createAction(
+  '[Product list view] Change page',
+  props<{ page: number }>()
+);<% } %>

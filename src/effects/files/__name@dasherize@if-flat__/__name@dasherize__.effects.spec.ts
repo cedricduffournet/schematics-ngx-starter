@@ -26,7 +26,8 @@ import {
 } from '@app/<%= dasherize(name) %>/containers';
 import { CRUD_MODAL_CONFIG } from '@app/shared/models/modal-config';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';
+import { <%= classify(name) %> } from '@app/<%= dasherize(name) %>/models/<%= dasherize(name) %>';<% if(paginated) { %>
+import { <%= classify(name) %>Facade } from '@app/<%= dasherize(name) %>/state/<%= dasherize(name) %>.facade';<% } %>
 
 describe('<%= classify(name) %>Effects', () => {
   let effects: <%= classify(name) %>Effects;
@@ -57,7 +58,11 @@ describe('<%= classify(name) %>Effects', () => {
           provide: BsModalService,
           useValue: { show: jest.fn() }
         },
-        provideMockStore()
+        provideMockStore()<% if(paginated) { %>,
+        {
+          provide: <%= classify(name) %>Facade,
+          useValue: { config$: of({}) }
+        }<% } %>
       ]
     });
     effects = TestBed.get(<%= classify(name) %>Effects);
@@ -66,7 +71,17 @@ describe('<%= classify(name) %>Effects', () => {
     modal = TestBed.get(BsModalService);
     actions$ = TestBed.get(Actions);
     spyOn(modal, 'show').and.callThrough();
-  });
+  });<% if(paginated) { %>
+
+  describe('changePage$', () => {
+    it('should dipatch load product when changing page', () => {
+      const action = <%= classify(name) %>ListViewActions.changePage({ page: 1 });
+      actions$ = hot('-a-', { a: action });
+      const success = <%= classify(name) %>ListViewActions.load<%= pluralize(classify(name)) %>();
+      const expected = cold('-a-', { a: success });
+      expect(effects.changePage$).toBeObservable(expected);
+    });
+  });<% } %>
 
   describe('load<%= pluralize(classify(name)) %>$', () => {
     const <%= pluralize(camelize(name)) %> = {
@@ -79,7 +94,13 @@ describe('<%= classify(name) %>Effects', () => {
         }
       },
       result: [1, 2]
-    };
+    };<% if(paginated) { %>
+    const meta = {
+      itemsPerPage: 10,
+      page: 1,
+      pageCount: 1,
+      totalItems: 2
+    };<% } %>
 
     function load<%= classify(name) %>Success(
       action:
@@ -87,11 +108,13 @@ describe('<%= classify(name) %>Effects', () => {
     ) {
       const createAction = action();
       const success = <%= classify(name) %>ApiActions.load<%= classify(name) %>Success({
-        <%= pluralize(camelize(name)) %>
+        <%= pluralize(camelize(name)) %><% if(paginated) { %>,
+        meta<% } %>
       });
 
-      actions$ = hot('-a-', { a: createAction });
-      const response = cold('-a|', { a: <%= pluralize(camelize(name)) %> });
+      actions$ = hot('-a-', { a: createAction });<% if(paginated) { %>
+      const response = cold('-a|', { a: { <%= pluralize(camelize(name)) %>, meta } });<% } else { %>
+      const response = cold('-a|', { a: <%= pluralize(camelize(name)) %> });<% } %>
       const expected = cold('--b', { b: success });
       service.load<%= pluralize(classify(name)) %> = jest.fn(() => response);
 

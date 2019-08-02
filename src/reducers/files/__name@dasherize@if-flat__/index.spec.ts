@@ -9,7 +9,12 @@ describe('<%= classify(name) %>Reducer ', () => {
       deleting: true,
       deleted: true,
       loading: true,
-      loaded: true
+      loaded: true<% if(paginated) { %>,
+      totalItems: 0,
+      config: {
+        page: 1,
+        itemsPerPage: 10
+      }<%  } %>
     },
     <%= pluralize(camelize(name)) %>: {
       entities: {
@@ -111,7 +116,12 @@ describe('<%= classify(name) %>Reducer ', () => {
           deleting: true,
           deleted: true,
           loading: true,
-          loaded: true
+          loaded: true<% if(paginated) { %>,
+          totalItems: 0,
+          config: {
+            page: 1,
+            itemsPerPage: 10
+          }<% } %>
         });
       });
     });

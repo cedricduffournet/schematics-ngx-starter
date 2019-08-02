@@ -14,7 +14,12 @@ export interface State {
   deleting: boolean;
   deleted: boolean;
   adding: boolean;
-  added: boolean;
+  added: boolean;<% if(paginated) { %>
+  totalItems: number;
+  config: {
+    page: number;
+    itemsPerPage: number;
+  };<% } %>
 }
 
 export const INITIAL_STATE: State = {
@@ -24,7 +29,12 @@ export const INITIAL_STATE: State = {
   deleting: false,
   deleted: false,
   loading: false,
-  loaded: false
+  loaded: false<% if(paginated) { %>,
+  totalItems: 0,
+  config: {
+    page: 1,
+    itemsPerPage: 10
+  }<% } %>
 };
 
 export const reducer = createReducer(
@@ -34,11 +44,12 @@ export const reducer = createReducer(
     loading: true,
     loaded: false
   })),
-  on(<%= classify(name) %>ApiActions.load<%= classify(name) %>Success, (state, { <%= pluralize(camelize(name)) %> }) => ({
+  on(<%= classify(name) %>ApiActions.load<%= classify(name) %>Success, (state, { <%= pluralize(camelize(name)) %><% if(paginated) { %>, meta<% } %> }) => ({
     ...state,
     loading: false,
     loaded: true,
-    ids: <%= pluralize(camelize(name)) %>.result
+    ids: <%= pluralize(camelize(name)) %>.result<% if(paginated) { %>,
+    totalItems: meta.totalItems<% } %>
   })),
   on(<%= classify(name) %>ApiActions.load<%= classify(name) %>Failure, state => ({
     ...state,
@@ -84,7 +95,18 @@ export const reducer = createReducer(
       deleting: false,
       deleted: false
     })
-  )
+  )<% if(paginated) { %>,
+  on(ProductListViewActions.changePage, (state, { page }) => {
+    const config = {
+      ...state.config,
+      page
+    };
+
+    return {
+      ...state,
+      config
+    };
+  })<% } %>
 );
 
 export const getIds = (state: State) => state.ids;
@@ -93,4 +115,6 @@ export const getDeleted = (state: State) => state.deleted;
 export const getAdding = (state: State) => state.adding;
 export const getAdded = (state: State) => state.added;
 export const getLoading = (state: State) => state.loading;
-export const getLoaded = (state: State) => state.loaded;
+export const getLoaded = (state: State) => state.loaded;<% if(paginated) { %>
+export const getConfig = (state: State) => state.config;
+export const getTotalItems = (state: State) => state.totalItems;<% } %>
