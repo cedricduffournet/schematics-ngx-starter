@@ -11,7 +11,6 @@ import { ValidationActionModule } from '@app/shared/validation-action';
 import { ModalWrapperModule } from '@app/shared/modal';
 
 import { <%= classify(name) %>AddModalComponent } from '@app/<%= dasherize(name) %>/containers';
-import { <%= classify(name) %>AddModalActions } from '@app/<%= dasherize(name) %>/state/actions';
 import {
   <%= classify(name) %>AddComponent,
   <%= classify(name) %>FormComponent
